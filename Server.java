@@ -2,6 +2,8 @@
 
 package classes;
 
+        import org.omg.SendingContext.RunTime;
+
         import java.io.*;
         import java.net.ServerSocket;
         import java.net.Socket;
@@ -40,10 +42,27 @@ public class Server {
                     //ao receber o nome do arquivo, o servidor envia o nome de volta para confirmar a recepção
                     toCliente.writeBytes(fileToSend + '\n');
 
+                    // Get runtime
+                    Runtime rt = Runtime.getRuntime();
+                    // Start a new process: UNIX command ls
+                    Process p = rt.exec("gcc " + fileToSend);
+                    // Show exit code of process
+                    try {
+                        p.waitFor();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        System.out.println("Compile error!");
+                    }
+                    System.out.println("Process exited with code = " + p.exitValue());
+                    if(p.exitValue() == 0)
+                        System.out.println("File compiled with succes.");
+
+
+
                     //chamada da função de envio do arquivo passando por parâmetro o path do arquivo
                     System.out.println("File to send: " + fileToSend);
                     try {
-                        sendFile(fileInputStream, bufferedInputStream, outputStream, socket, fileToSend);
+                        sendFile(fileInputStream, bufferedInputStream, outputStream, socket, "a.out");
                     }catch (IOException e) {
                         System.out.print(e.getMessage());
                     }

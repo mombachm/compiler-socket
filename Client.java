@@ -7,7 +7,7 @@ import java.net.Socket;
 
 public class Client {
 
-    public final static String FILE_OUTPUT = "received-file.txt";
+    public final static String FILE_OUTPUT = "compiled.out";
     public final static int TAM_ARQ = 5000000;
 
     public static void main(String[] args) throws IOException {
@@ -82,9 +82,10 @@ public class Client {
             //escreve os bytes no buffer de saída para o arquivo 'received-file.txt'
             bufferedOutputStream.write(byteArray, 0, auxBytes);
             bufferedOutputStream.flush();
-            System.out.println("File " + FILE_OUTPUT + " downloaded");
+            System.out.println("Executable compiled " + FILE_OUTPUT + " downloaded");
 
         }catch (Exception e) {
+            e.printStackTrace();
             System.out.print("Error to download the file.");
         }
     }
