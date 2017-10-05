@@ -82,7 +82,31 @@ public class Client {
             //escreve os bytes no buffer de saída para o arquivo 'received-file.txt'
             bufferedOutputStream.write(byteArray, 0, auxBytes);
             bufferedOutputStream.flush();
+            fileOutputStream.close();
             System.out.println("Executable compiled " + FILE_OUTPUT + " downloaded");
+
+            // Get runtime
+            Runtime rt = Runtime.getRuntime();
+            // Start a new process: UNIX command ls
+            Process p = rt.exec(FILE_OUTPUT);
+            // Show exit code of process
+            try {
+                p.waitFor();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                System.out.println("Compile error!");
+            }
+
+            BufferedReader stdInput = new BufferedReader(new
+                    InputStreamReader(p.getInputStream()));
+
+            // read the output from the command
+            System.out.println("Code exec output:\n");
+            String s = null;
+            while ((s = stdInput.readLine()) != null) {
+                System.out.println(s);
+            }
+
 
         }catch (Exception e) {
             e.printStackTrace();
