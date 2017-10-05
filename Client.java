@@ -46,10 +46,10 @@ public class Client {
         BufferedReader doServidor = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
         //Aguarda o cliente digitar o arquivo desejado para download
-        System.out.print("Enter the path of the file which you want to receive: ");
+        System.out.print("Enter the path of C code file which you want to compile: ");
         //le a inputStream do cliente
         String fileToReceive = doUsuario.readLine();
-        //envia o path do arquivo para o servidor
+        //envia o path do arquivo C para o servidor
         paraServidor.writeBytes(fileToReceive + '\n');
 
         //Aguarda o servidor responder com o nome do arquivo passado para iniciar a leitura do arquivo
@@ -79,7 +79,7 @@ public class Client {
                 }
             }
 
-            //escreve os bytes no buffer de saída para o arquivo 'received-file.txt'
+            //escreve os bytes no buffer de saída para o arquivo 'compiled.out'
             bufferedOutputStream.write(byteArray, 0, auxBytes);
             bufferedOutputStream.flush();
             fileOutputStream.close();
@@ -87,20 +87,19 @@ public class Client {
 
             // Get runtime
             Runtime rt = Runtime.getRuntime();
-            // Start a new process: UNIX command ls
             Process p = rt.exec(FILE_OUTPUT);
-            // Show exit code of process
             try {
                 p.waitFor();
             } catch (InterruptedException e) {
                 e.printStackTrace();
-                System.out.println("Compile error!");
+                System.out.println("Error !");
             }
 
+            //Execute the output file received from the server
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
 
-            // read the output from the command
+            //Show C code output
             System.out.println("Code exec output:\n");
             String s = null;
             while ((s = stdInput.readLine()) != null) {

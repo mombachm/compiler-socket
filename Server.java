@@ -12,6 +12,8 @@ public class Server {
 
     public final static int SOCKET_PORT = 13267;
 
+    public final static String OUTPUT_FILE = "a.out";
+
     public static void main(String[] args) throws IOException {
         FileInputStream fileInputStream = null;
         BufferedInputStream bufferedInputStream = null;
@@ -60,9 +62,9 @@ public class Server {
 
 
                     //chamada da função de envio do arquivo passando por parâmetro o path do arquivo
-                    System.out.println("File to send: " + fileToSend);
+                    System.out.println("C File to send: " + OUTPUT_FILE);
                     try {
-                        sendFile(fileInputStream, bufferedInputStream, outputStream, socket, "a.out");
+                        sendFile(fileInputStream, bufferedInputStream, outputStream, socket, OUTPUT_FILE);
                     }catch (IOException e) {
                         System.out.print(e.getMessage());
                     }
