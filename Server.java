@@ -12,6 +12,7 @@ public class Server {
 
     public final static int SOCKET_PORT = 13267;
 
+    //Arquivo resultante da compilação
     public final static String OUTPUT_FILE = "a.out";
 
     public static void main(String[] args) throws IOException {
@@ -35,7 +36,7 @@ public class Server {
                     //instancia o DataOutputStream para escrever no socket conectado e enviar o buffer para o cliente
                     DataOutputStream toCliente = new DataOutputStream(socket.getOutputStream());
 
-                    //aguarda o cliente digitar o nome do arquivo a ser enviado
+                    //aguarda o cliente digitar o nome do arquivo C a ser compilado
                     String fileToSend = "";
                     do {
                         fileToSend = fromCliente.readLine();
@@ -44,11 +45,9 @@ public class Server {
                     //ao receber o nome do arquivo, o servidor envia o nome de volta para confirmar a recepção
                     toCliente.writeBytes(fileToSend + '\n');
 
-                    // Get runtime
+                    // Executa um processo para compilação do arquivo
                     Runtime rt = Runtime.getRuntime();
-                    // Start a new process: UNIX command ls
                     Process p = rt.exec("gcc " + fileToSend);
-                    // Show exit code of process
                     try {
                         p.waitFor();
                     } catch (InterruptedException e) {
@@ -61,7 +60,7 @@ public class Server {
 
 
 
-                    //chamada da função de envio do arquivo passando por parâmetro o path do arquivo
+                    //chamada da função de envio do arquivo resultante da compilação passando por parâmetro o path do arquivo
                     System.out.println("C File to send: " + OUTPUT_FILE);
                     try {
                         sendFile(fileInputStream, bufferedInputStream, outputStream, socket, OUTPUT_FILE);

@@ -95,17 +95,18 @@ public class Client {
                 System.out.println("Error !");
             }
 
-            //Execute the output file received from the server
+            //Executa o arquivo resultante da compilação do servidor
             BufferedReader stdInput = new BufferedReader(new
                     InputStreamReader(p.getInputStream()));
 
-            //Show C code output
+            //Exibe o output do programa na tela
             System.out.println("Code exec output:\n");
+            System.out.println("-----------------\n");
             String s = null;
             while ((s = stdInput.readLine()) != null) {
                 System.out.println(s);
             }
-
+            System.out.println("-----------------\n");
 
         }catch (Exception e) {
             e.printStackTrace();
